@@ -78,6 +78,10 @@
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Compiler\Lexer\TokenKind.cs" />
+    <Compile Include="Compiler\Lexer\Token.cs" />
+    <Compile Include="Compiler\Lexer\Lexer.cs" />
+    <Compile Include="Compiler\Lexer\LexerTest.cs" />
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
