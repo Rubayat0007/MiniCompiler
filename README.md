@@ -1,260 +1,363 @@
+# MiniCompiler
 
----
+A C# Windows Forms application for exploring the fundamental stages of compiler construction through a custom programming language.
 
-# Simple Lang Compiler 🚀
+MiniCompiler demonstrates how source code can be processed through lexical analysis, syntax analysis, symbol-table management, and intermediate-code generation. The application provides a graphical interface for entering source code, inspecting generated tokens, validating syntax, and viewing intermediate quadruples.
 
-This project showcases the design and implementation of a basic compiler, capable of tokenizing, parsing, and generating intermediate code for a custom programming language. The compiler is built using **C#** and includes a graphical user interface (GUI) to interact with the compilation process.
+> **Project status:** This repository is a substantially modified and extended version of an existing educational compiler project. The current implementation includes modifications to the interface, project structure, and compiler workflow.
 
----
+## Overview
 
-## 🚩 Table of Contents
-1. [🌟 Overview](#overview)
-2. [✨ Features](#features)
-3. [⚙️ System Requirements](#system-requirements)
-4. [📦 Setup and Installation](#setup-and-installation)
-5. [💻 Usage](#usage)
-    - [Input Code Example](#input-code-example)
-6. [🛠️ Detailed Architecture](#detailed-architecture)
-    - [Lexical Analysis](#lexical-analysis)
-    - [Syntax Analysis](#syntax-analysis)
-    - [Intermediate Code Generation](#intermediate-code-generation)
-    - [Symbol and Temporary Tables](#symbol-and-temporary-tables)
-7. [🎨 Graphical User Interface](#graphical-user-interface)
-8. [📝 Example Output](#example-output)
-9. [📈 Future Enhancements](#future-enhancements)
-10. [📄 License](#license)
-11. [👨‍💻 Contributing](#contributing)
+MiniCompiler is an educational compiler-development project that processes a small custom programming language. The supported language includes variable declarations, assignments, arithmetic expressions, conditional statements, and loop structures.
 
----
+The compiler workflow includes:
 
-## 🌟 Overview
+* Lexical analysis and tokenization
+* Syntax analysis using recursive descent parsing
+* Intermediate-code generation
+* Symbol-table management
+* Temporary-variable management
+* Graphical user interface for compiler interaction
 
-The **Simple Lang Compiler** is designed to illustrate the basic principles of compiler construction. It processes a custom programming language that supports variable declarations, arithmetic operations, conditional statements, and loops. The compiler translates the source code into an intermediate form represented as quadruples, which can then be optimized or executed.
+The generated intermediate representation uses quadruples containing an operator, two operands, and a result. This representation provides a foundation for future optimization or execution stages.
 
-The core components include:
-- **Lexical Analysis (Tokenization)**
-- **Syntax Analysis (Parsing)**
-- **Intermediate Code Generation**
-- **Symbol Table and Temporary Variable Management**
+## Features
 
----
+### Compiler Pipeline
 
-## ✨ Features
-
-- **Complete Compilation Pipeline**: Tokenization, parsing, and intermediate code generation.
-- **Recursive Descent Parser**: Ensures syntactical correctness based on predefined grammar rules.
-- **Intermediate Representation**: Generates quadruples as an intermediate form of the source code.
-- **Symbol Table**: Manages identifiers (variables and constants) and their types/values.
-- **Temporary Variable Table**: Tracks temporary variables generated during code execution.
-- **Graphical User Interface (GUI)**: Intuitive interface for users to interact with the compiler.
-
----
-
-## ⚙️ System Requirements
-
-- **Operating System**: Windows (tested on Windows 10)
-- **Development Environment**: Visual Studio (2019 or later)
-- **Framework**: .NET Framework 4.7 or higher
-- **Memory**: Minimum 4 GB RAM
-- **Disk Space**: 50 MB or more for project files and dependencies
-
----
-
-## 📦 Setup and Installation
-
-1. **Clone the Repository**:
-   ```bash
-   git clone https://github.com/4riful/custom-compiler.git
-   ```
-
-2. **Open the Project in Visual Studio**:
-   - Open the `.sln` file (e.g., `compiler202124405005.sln`) in Visual Studio.
-   - Ensure that you have the required .NET Framework installed.
-
-3. **Build the Project**:
-   - In Visual Studio, build the project to compile the source code.
-
-4. **Run the Application**:
-   - You can run the application directly from Visual Studio or by executing the `.exe` file located in the `bin/Debug/` or `bin/Release/` directory.
-
----
-
-## 💻 Usage
-
-Once the project is built and running, the graphical user interface (GUI) will allow you to input code, tokenize it, parse it, and generate intermediate code.
-
-### Input Code Example
-
-The compiler processes a subset of a programming language. Below is an example of valid input code that the compiler can handle:
-
-```simple-lang
-int$f;$f=8;$f=$f;while($f>=$f*4)do$f=$f+6;
-if($f<$f*865)thenbegin$f=$f*5;$f=$f+17;end;
-elsebegin$f=$f+6;$f=$f+8;end;
-```
-
-You can also use other similar structures, for example:
-
-```simple-lang
-int$y;$y=94;$y=8;while($y+8>=$y+4)dobegin$y=$y*580;$y=$y+418;end;
-if($y*1>=$y)then$y=$y+1;else$y=$y*64;
-```
-
-Due to the limitations of the DFA, the language can only accept specific structures as shown in the examples. Input code outside this format will result in an error during tokenization or parsing.
-
-Simply enter this code in the input field, click the **Tokenize** button to break down the code into tokens, and then click **Parse** to validate the syntax and generate intermediate code.
-
----
-
-## 🛠️ Detailed Architecture
+* Converts source code into a sequence of tokens
+* Validates token sequences against predefined grammar rules
+* Generates intermediate code in quadruple format
+* Displays compiler output through a desktop interface
 
 ### Lexical Analysis
 
-The **tokenizer** converts the input source code into tokens, which are the smallest meaningful units of the language. It identifies keywords (`int`, `if`, `while`), operators (`+`, `*`, `=`, etc.), and delimiters (`;`, `,`, `()`).
+The tokenizer scans source code character by character and identifies language elements such as:
 
-- **Method**: The tokenizer is implemented using a finite state machine (FSM), which scans the input character by character and groups them into tokens.
-- **Example Tokens**:
-  - `int` → `kw_int`
-  - `$f` → `identifier`
-  - `=` → `assign`
-  - `while` → `kw_while`
+* Keywords
+* Identifiers
+* Integer literals
+* Arithmetic operators
+* Relational operators
+* Assignment operators
+* Statement delimiters
 
 ### Syntax Analysis
 
-The **parser** is responsible for ensuring the sequence of tokens conforms to the grammar of the language. It uses a recursive descent parsing technique to validate the syntax of the source code.
+The parser uses a recursive descent approach to process the token stream and validate the structure of the source program.
 
-- **Grammar Rules**: The grammar supports variable declarations, expressions, conditional statements, and loops.
-- **Recursive Descent Parsing**: Each non-terminal symbol in the grammar is handled by a corresponding function, which recursively processes the input tokens.
+Supported language structures include:
 
-### Intermediate Code Generation
+* Variable declarations
+* Variable assignments
+* Arithmetic expressions
+* Conditional statements
+* `while` loops
+* Compound statements using `begin` and `end`
 
-The intermediate code is represented as quadruples, a simplified form of machine instructions. Each quadruple consists of four parts: an operator, two operands, and a result.
+### Intermediate-Code Generation
 
-- **Example Quadruple**:
-  - `($f = $f + 6)` becomes `(+, $f, 6, $f)`
+The compiler generates quadruples as an intermediate representation.
+
+Each quadruple contains:
+
+```text
+Operator | Operand 1 | Operand 2 | Result
+```
+
+For example, an expression such as:
+
+```text
+$f = $f + 6
+```
+
+may be represented as:
+
+```text
+(+, $f, 6, T0)
+(=, T0, null, $f)
+```
 
 ### Symbol and Temporary Tables
 
-- **Symbol Table**: Stores information about variables, their types, and values.
-- **Temporary Variable Table**: Manages the temporary variables generated during expression evaluation.
+The application maintains information about:
 
----
+* Declared identifiers
+* Variable types
+* Stored values
+* Temporary variables generated during expression evaluation
 
-## 🎨 Graphical User Interface
+### Graphical User Interface
 
-The project includes a GUI built using Windows Forms in C#. The interface provides an easy-to-use layout for users:
+The Windows Forms interface provides:
 
-- **Source Code Input**: A text box to input source code.
-- **Tokenization**: A button to tokenize the source code, displaying tokens in a list.
-- **Parsing**: A button to analyze the syntax, showing the syntax tree and errors.
-- **Intermediate Code Generation**: Displays generated quadruples.
-- **Symbol Table and Temporary Variables**: Lists of identifiers and temporary variables are viewable for inspection.
-- **Clipboard Support**: Allows users to copy results to the clipboard using `Ctrl+C`.
+* Source-code input
+* Tokenization controls
+* Parsing controls
+* Token output
+* Intermediate-code output
+* Symbol-table display
+* Temporary-variable display
+* Clipboard support for copying compiler results
 
----
+## Technology Stack
 
-## 📝 Example Output
+| Component            | Technology                   |
+| -------------------- | ---------------------------- |
+| Programming language | C#                           |
+| User interface       | Windows Forms                |
+| Framework            | .NET Framework 4.7 or higher |
+| IDE                  | Visual Studio 2019 or later  |
+| Project type         | Desktop application          |
+| Platform             | Windows                      |
 
-For the input code:
+## System Requirements
 
-```simple-lang
-int$f;$f=8;$f=$f;while($f>=$f*4)do$f=$f+6;
-if($f<$f*865)thenbegin$f=$f*5;$f=$f+17;end;
-elsebegin$f=$f+6;$f=$f+8;end;
+* Windows operating system
+* Visual Studio 2019 or later
+* .NET Framework 4.7 or higher
+* Minimum 4 GB RAM
+* Approximately 50 MB of available disk space
+
+## Getting Started
+
+### Clone the Repository
+
+```bash
+git clone https://github.com/Rubayat0007/MiniCompiler.git
+cd MiniCompiler
 ```
 
-The compiler produces:
+### Open the Project
 
-### Tokens:
-```
-[kw_int, int]
-[identifier, $f]
-[semiColon, ;]
-[identifier, $f]
-[assign, =]
-[integer, 8]
-...
-```
+1. Open the solution file:
 
-### Quadruples:
-```
-Idx  | Op  | Opr1 | Opr2 | Result
-0    | =   | 8    | null | $f
-1    | =   | $f   | null | $f
-2    | *   | $f   | 4    | T0
-3    | >=  | $f   | T0   | T1
-4    | jnz | T1   | null | 6
-5    | j   | null | null | 9
-...
-```
-
-### Symbol Table:
-```
-Name   | Type   | Value
-$f     | int    | 8
-```
-
-### Temporary Variables:
-```
-Name   | Type   | Value
-T0     | int    | $f * 4
-T1     | bool   | $f >= T0
-```
-
----
-
-## 📈 Future Enhancements
-
-- **Code Optimization**: Implement optimizations like constant folding, dead code elimination, etc.
-- **Support for Functions**: Add function definitions and calls.
-- **Advanced Error Handling**: Provide more detailed error messages and debugging information.
-- **Control Structures**: Expand the language to support switch statements, function calls, and arrays.
-- **Backend Code Generation**: Extend the compiler to generate machine code or LLVM IR.
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 👨‍💻 Contributing
-
-Con
-
-tributions are always welcome! If you find a bug or have a feature request, feel free to create an issue or submit a pull request. Follow these steps to contribute:
-
-1. **Fork the Repository**:
-   Click the "Fork" button at the top-right corner of the repository page.
-
-2. **Clone Your Fork**:
-   ```bash
-   git clone https://github.com/yourusername/custom-compiler.git
+   ```text
+   compiler202124405005.sln
    ```
 
-3. **Create a New Branch**:
-   ```bash
-   git checkout -b feature/YourFeatureName
-   ```
+2. Open the solution in Visual Studio.
 
-4. **Commit Your Changes**:
-   ```bash
-   git commit -m "Add Your Feature"
-   ```
+3. Confirm that the required .NET Framework version is installed.
 
-5. **Push to Your Fork**:
-   ```bash
-   git push origin feature/YourFeatureName
-   ```
+4. Restore or verify the project dependencies if prompted.
 
-6. **Open a Pull Request**:
-   Navigate to the original repository and open a pull request from your fork.
+### Build the Application
 
----
+In Visual Studio:
 
-🔗 **Visit the Repository:** [https://github.com/4riful/custom-compiler](https://github.com/4riful/custom-compiler)
+1. Select the desired build configuration.
+2. Select **Build > Build Solution**.
+3. Resolve any environment-specific configuration issues if prompted.
 
-Feel free to reach out if you have any questions or need further assistance. Happy compiling! 🎉
+### Run the Application
 
---- 
+Run the application from Visual Studio by pressing **F5** or selecting:
+
+**Debug > Start Debugging**
+
+The compiled executable can also be found in the appropriate build directory:
+
+```text
+bin/Debug/
+```
+
+or:
+
+```text
+bin/Release/
+```
+
+## Usage
+
+1. Launch the MiniCompiler application.
+2. Enter source code into the input area.
+3. Select **Tokenize** to generate and inspect the token stream.
+4. Select **Parse** to validate the syntax.
+5. Review the generated intermediate code.
+6. Inspect the symbol table and temporary-variable table.
+
+## Example Input
+
+The following example demonstrates variable declaration, assignment, arithmetic operations, a loop, and conditional statements:
+
+```text
+int$f;
+$f=8;
+$f=$f;
+while($f>=$f*4)do
+$f=$f+6;
+
+if($f<$f*865)then
+begin
+$f=$f*5;
+$f=$f+17;
+end;
+else
+begin
+$f=$f+6;
+$f=$f+8;
+end;
+```
+
+Another supported example is:
+
+```text
+int$y;
+$y=94;
+$y=8;
+while($y+8>=$y+4)do
+begin
+$y=$y*580;
+$y=$y+418;
+end;
+
+if($y*1>=$y)then
+$y=$y+1;
+else
+$y=$y*64;
+```
+
+The language is intentionally limited and follows the grammar supported by the current tokenizer and parser. Input that does not follow the supported structure may produce a tokenization or parsing error.
+
+## Architecture
+
+### 1. Lexical Analysis
+
+The tokenizer reads the source code and converts it into meaningful tokens.
+
+Examples include:
+
+```text
+int       → kw_int
+$f        → identifier
+=         → assign
+while     → kw_while
+;         → semiColon
+```
+
+### 2. Syntax Analysis
+
+The parser consumes the generated tokens and checks whether they follow the language grammar.
+
+The parser handles constructs such as:
+
+* Declarations
+* Assignments
+* Expressions
+* Conditions
+* Loops
+* Compound statements
+
+### 3. Intermediate-Code Generation
+
+Expressions and statements are converted into quadruples.
+
+Example:
+
+```text
+$f = $f + 6
+```
+
+Intermediate representation:
+
+```text
+Idx | Op | Opr1 | Opr2 | Result
+----|----|------|------|-------
+0   | +  | $f   | 6    | T0
+1   | =  | T0   | null | $f
+```
+
+### 4. Symbol Table
+
+The symbol table stores information about identifiers used in the source program.
+
+Typical information includes:
+
+```text
+Name | Type | Value
+-----|------|------
+$f   | int  | 8
+```
+
+### 5. Temporary Variable Table
+
+Temporary variables are created during expression evaluation and intermediate-code generation.
+
+Example:
+
+```text
+Name | Type | Expression
+-----|------|------------
+T0   | int  | $f * 4
+T1   | bool | $f >= T0
+```
+
+## Project Structure
+
+```text
+MiniCompiler/
+├── Properties/
+├── Resources/
+├── App.config
+├── Form1.cs
+├── Form1.Designer.cs
+├── Form1.resx
+├── Program.cs
+├── compiler202124405005.sln
+├── compiler202124405021.csproj
+├── .gitignore
+└── README.md
+```
+
+## Current Limitations
+
+The language is intentionally small and supports only the grammar implemented by the current tokenizer and parser.
+
+Current limitations include:
+
+* Limited language syntax
+* Restricted expression structures
+* No complete machine-code backend
+* No function declarations or function calls
+* Limited compiler diagnostics
+* No advanced optimization pipeline
+* Windows-specific graphical interface
+
+## Future Improvements
+
+Potential future improvements include:
+
+* Constant folding
+* Dead-code elimination
+* Improved syntax and semantic error reporting
+* Function declarations and calls
+* Arrays and additional data types
+* Expanded control-flow structures
+* Abstract syntax tree visualization
+* Three-address code generation
+* LLVM IR or machine-code generation
+* Automated compiler test cases
+* Improved user interface and code-editing support
+
+## Attribution
+
+This project was adapted from the original educational compiler project:
+
+https://github.com/4riful/custom-compiler
+
+The current repository contains substantial modifications and extensions made for further development, experimentation, and learning.
+
+## Author
+
+**Rubayat Karim**
+
+GitHub: [Rubayat0007](https://github.com/Rubayat0007)
+
+## License
+
+This repository does not currently include a license file. Unless a license is added, the code should not be assumed to be available for unrestricted reuse or redistribution.
+
+## Repository
+
+https://github.com/Rubayat0007/MiniCompiler
