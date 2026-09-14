@@ -1,17 +1,12 @@
 # MiniCompiler
 
-MiniCompiler is a C# Windows Forms application for exploring the fundamental
-stages of compiler construction through a small custom programming language.
+MiniCompiler is a C# Windows Forms application for exploring the fundamental stages of compiler construction through a small custom programming language.
 
-The project is being developed incrementally to demonstrate how source code
-can be processed through lexical analysis, syntax analysis, symbol-table
-management, and intermediate-code generation.
+The project is being developed incrementally to demonstrate how source code can be processed through lexical analysis, syntax analysis, symbol-table management, and intermediate-code generation.
 
 ## Overview
 
-MiniCompiler provides a graphical environment for entering source code,
-examining compiler output, and experimenting with the individual stages of
-the compilation process.
+MiniCompiler provides a graphical environment for entering source code, examining compiler output, and experimenting with the individual stages of the compilation process.
 
 The project is organized around the following compiler-development goals:
 
@@ -22,36 +17,29 @@ The project is organized around the following compiler-development goals:
 - Display compiler results through a Windows Forms interface.
 - Separate compiler logic into maintainable and testable components.
 
-The generated intermediate representation is based on quadruples containing
-an operator, two operands, and a result. This representation can later be
-extended with optimization or execution stages.
+The generated intermediate representation is based on quadruples containing an operator, two operands, and a result. This representation can later be extended with optimization or execution stages.
 
 ## Project Status
 
-MiniCompiler is under active development. The compiler is being organized
-into independent components, with each stage implemented, tested, and
-documented separately.
+MiniCompiler is under active development. The compiler is being organized into independent components, with each stage implemented, tested, and documented separately.
 
 The current implementation includes:
 
 - A structured token model.
 - Token classification through `TokenKind`.
 - A standalone lexical analyzer.
-- Recognition of keywords, identifiers, integer literals, operators,
-  punctuation, and statement delimiters.
+- Recognition of keywords, identifiers, integer literals, operators, punctuation, and statement delimiters.
 - Line and column tracking for tokens.
 - Lexer testing and diagnostic output.
 - Integration with the Windows Forms project structure.
 
-Future development will extend the project with syntax analysis, semantic
-analysis, symbol-table management, and intermediate-code generation.
+Future development will extend the project with syntax analysis, semantic analysis, symbol-table management, and intermediate-code generation.
 
 ## Features
 
 ### Lexical Analysis
 
-The lexical analyzer reads source code character by character and converts it
-into a sequence of tokens.
+The lexical analyzer reads source code character by character and converts it into a sequence of tokens.
 
 The current lexer recognizes:
 
@@ -78,8 +66,7 @@ Each token contains:
 
 The token model provides a structured representation of the source program.
 
-The `TokenKind` enumeration defines the categories supported by the lexer,
-while the `Token` class stores the details of each recognized token.
+The `TokenKind` enumeration defines the categories supported by the lexer, while the `Token` class stores the details of each recognized token.
 
 Example token categories include:
 
@@ -97,14 +84,13 @@ Lexer Testing
 The project includes a basic lexer test that processes sample source code and displays the generated token stream.
 
 Example input:
-
 $int$ $x$; $x$ := 25 + 5
 
 The test output includes the token kind, lexeme, line number, and column number for each token.
 
 Planned Syntax Analysis
 
-The next development stage is a syntax analyzer based on recursive descent parsing.
+The next development stage will be a syntax analyzer based on recursive descent parsing.
 
 The planned parser will validate structures such as:
 
@@ -125,16 +111,13 @@ Planned Intermediate-Code Generation
 The project is intended to generate quadruples as an intermediate representation.
 
 Each quadruple follows this format:
-
 Operator | Operand 1 | Operand 2 | Result
 
 For example:
-
 (+, $f, 6, T0)
 (=, T0, null, $f)
 
 This represents the expression:
-
 $f = $f + 6
 
 The syntax and output format will be finalized as the parser and intermediate-code generator are implemented.
@@ -163,7 +146,7 @@ Clipboard support for copying compiler results
 
 Some of these functions are part of the existing application structure and will be refined as the compiler components are redeveloped.
 
-## Technology Stack
+Technology Stack
 
 | Component            | Technology                  |
 |----------------------|-----------------------------|
@@ -189,12 +172,13 @@ Approximately 50 MB of available disk space
 
 Getting Started
 Clone the Repository
+
 git clone https://github.com/Rubayat0007/MiniCompiler.git
 cd MiniCompiler
+
 Open the Project
 
 Open the solution file:
-
 compiler202124405005.sln
 
 Open the solution in Visual Studio.
@@ -216,7 +200,6 @@ Resolve any environment-specific configuration issues if prompted.
 Run the Application
 
 Run the application from Visual Studio by pressing F5 or selecting:
-
 Debug > Start Debugging
 
 The compiled executable is normally generated in a build directory such as:
@@ -226,6 +209,7 @@ bin/Debug/
 or:
 
 bin/Release/
+
 Usage
 
 Launch the MiniCompiler application.
@@ -292,29 +276,33 @@ The symbol table will store information about identifiers used in the source pro
 
 Typical information may include:
 
-Name | Type | Value
------|------|------
-$f$  | int  | 8
+| Name | Type | Value |
+|------|------|-------|
+| `$f$` | `int` | `8` |
+
 5. Intermediate-Code Generation
 
 The intermediate-code generator will convert validated statements and expressions into quadruples.
 
 Example:
 
-Idx | Op | Opr1 | Opr2 | Result
-----|----|------|------|-------
-0   | +  | $f   | 6    | T0
-1   | =  | T0   | null | $f
+| Idx | Op | Opr1 | Opr2 | Result |
+|-----|----|------|------|--------|
+| 0 | `+` | `$f$` | `6` | `T0` |
+| 1 | `=` | `T0` | `null` | `$f$` |
+
 6. Temporary Variables
 
 Temporary variables will be created when intermediate results are needed during expression evaluation.
 
 Example:
 
-Name | Type | Expression
------|------|------------
-T0   | int  | $f + 6
+| Name | Type | Expression |
+|------|------|------------|
+| `T0` | `int` | `$f + 6$` |
+
 Project Structure
+
 MiniCompiler/
 ├── Compiler/
 │   └── Lexer/
@@ -334,9 +322,10 @@ MiniCompiler/
 ├── compiler202124405021.csproj
 ├── .gitignore
 └── README.md
+
 Current Limitations
 
-The language is intentionally small and the current implementation is still under development.
+The language is intentionally small, and the current implementation is still under development.
 
 Current limitations include:
 
@@ -402,7 +391,7 @@ Author
 
 Rubayat Karim
 
-GitHub: Rubayat0007 
+GitHub: Rubayat0007
 
 License
 
